@@ -50,7 +50,7 @@ workbox.routing.registerRoute(
 )
 
 workbox.routing.registerRoute(
-    new RegExp('https://upload.wikimedia.org/'),
+    new RegExp('https://crests.football-data.org/'),
     workbox.strategies.cacheFirst({
         cacheName: 'bagde-team',
         plugins: [
@@ -94,6 +94,19 @@ workbox.routing.registerRoute(
     /\.(?:js|css)$/,
     new workbox.strategies.StaleWhileRevalidate({
         cacheName: 'static-resources',
+    })
+);
+
+workbox.routing.registerRoute(
+    /\.(?:png|gif|jpg|jpeg|svg)$/,
+    new workbox.strategies.StaleWhileRevalidate({
+        cacheName: 'images-two',
+        plugins: [
+            new workbox.expiration.Plugin({
+                maxEntries: 200,
+                maxAgeSeconds: 7 * 24 * 60 * 60,
+            }),
+        ],
     })
 );
 
